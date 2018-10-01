@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css?family=Comfortaa:400,700");
+@import url("https://fonts.googleapis.com/css?family=VT323");
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1000px;
+      grid-template-columns: 1000px;
+  -ms-grid-rows: 600px;
+      grid-template-rows: 600px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.wrapper {
+  background-color: #b3d7f0;
+  display: -ms-grid;
+  display: grid;
+  border-radius: 3px;
+  font-family: 'VT323';
+}
+
+.wrapper > div {
+  display: none;
+}
+
+.wrapper.s0 {
+  -ms-grid-columns: 100%;
+      grid-template-columns: 100%;
+  -ms-grid-rows: 40% 60%;
+      grid-template-rows: 40% 60%;
+      grid-template-areas: "menu-header" "saves";
+}
+
+.wrapper.s0 #menu-header,
+.wrapper.s0 #saves {
+  display: initial;
+}
+
+.wrapper.s1 {
+  -ms-grid-columns: 30% 70%;
+      grid-template-columns: 30% 70%;
+  -ms-grid-rows: 35px calc(50% - 35px/2) calc(50% - 35px/2);
+      grid-template-rows: 35px calc(50% - 35px/2) calc(50% - 35px/2);
+      grid-template-areas: "header header" "map output" "inventory input";
+}
+
+.wrapper.s1 .header,
+.wrapper.s1 #map, .wrapper.s1 #inventory,
+.wrapper.s1 #input, .wrapper.s1 #output {
+  display: initial;
+}
+
+.wrapper.s2 {
+  -ms-grid-columns: 100%;
+      grid-template-columns: 100%;
+  -ms-grid-rows: 35px calc(100% - 35px);
+      grid-template-rows: 35px calc(100% - 35px);
+      grid-template-areas: "header" "end-message";
+}
+
+.wrapper.s2 .header, .wrapper.s2 #end-message {
+  display: initial;
+}
+
+.header {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: header;
+  text-transform: uppercase;
+  font-weight: bold;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding-left: .5em;
+  font-size: 1.2em;
+  font-family: 'Comfortaa';
+}
+
+#map {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: map;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+}
+
+#inventory {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  grid-area: inventory;
+}
+
+#output {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: output;
+}
+
+#input {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
+  grid-area: input;
+}
+
+#menu-header {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: menu-header;
+  font-size: 5em;
+  font-family: 'Comfortaa';
+  font-weight: 400;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+#saves {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: saves;
+  -ms-grid-column-align: center;
+      justify-self: center;
+}
+
+#end-message {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: end-message;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  font-size: 3.5em;
+}
+/*# sourceMappingURL=main.css.map */

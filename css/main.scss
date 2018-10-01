@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700');
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1000px;
+    grid-template-rows: 600px;
+    justify-content: center;
+    align-content: center;
+}
+
+.wrapper {
+    background-color: #b3d7f0;
+    display: grid;
+    border-radius: 3px;
+    
+    font-family: 'VT323';
+
+    & > div {
+        display: none;
+    }
+
+    &.s0 {
+        grid-template-columns: 100%;
+        grid-template-rows: 40% 60%;
+        grid-template-areas: 
+            "menu-header"
+            "saves";
+        
+        #menu-header,
+        #saves {
+            display: initial;
+        }
+    }
+
+    &.s1 {
+        grid-template-columns: 30% 70%;
+        grid-template-rows: 35px calc(50% - 35px/2) calc(50% - 35px/2);
+        grid-template-areas: 
+            "header header"
+            "map output"
+            "inventory input";
+
+        .header,
+        #map, #inventory,
+        #input, #output {
+            display: initial;
+        }
+    }
+
+    &.s2 {
+        grid-template-columns: 100%;
+        grid-template-rows: 35px calc(100% - 35px);
+        grid-template-areas: 
+            "header"
+            "end-message";
+
+        .header, #end-message {
+            display: initial;
+        }
+    }
+}
+
+.header {
+    grid-area: header;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-sizing: border-box;
+    align-self: center;
+    padding-left: .5em;
+    font-size: 1.2em;
+    font-family: 'Comfortaa';
+}
+
+#map {
+    grid-area: map;
+    align-self: center;
+    justify-self: center;
+}
+
+#inventory {
+    grid-area: inventory;
+}
+
+#output {
+    grid-area: output;
+}
+
+#input {
+    grid-area: input;
+}
+
+#menu-header {
+    grid-area: menu-header;
+    font-size: 5em;
+    font-family: 'Comfortaa';
+    font-weight: 400;
+    justify-self: center;
+    align-self: center;
+}
+
+#new-save {
+}
+
+#saves {
+    grid-area: saves;
+    justify-self: center;
+}
+
+#end-message {
+    grid-area: end-message;
+    justify-self: center;
+    align-self: center;
+    font-size: 3.5em;
+}
