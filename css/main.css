@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Comfortaa:400,700");
 @import url("https://fonts.googleapis.com/css?family=VT323");
+@import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono");
 html, body {
   padding: 0;
   margin: 0;
@@ -130,12 +131,58 @@ body {
       align-self: center;
 }
 
+#new-save {
+  font-family: 'Share Tech Mono';
+  font-size: 16px;
+  padding: .4em;
+  margin: 0;
+  outline: none;
+}
+
 #saves {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
   grid-area: saves;
   -ms-grid-column-align: center;
       justify-self: center;
+}
+
+#saves ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#saves ul li {
+  padding: .4em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Share Tech Mono';
+  position: relative;
+}
+
+#saves ul li button {
+  outline: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  padding: 0 0.4em;
+  margin: 0;
+  background: none;
+  border: none;
+}
+
+#saves ul li button:nth-last-of-type(2) {
+  right: 1.5em;
+  text-transform: uppercase;
+  color: red;
+  display: none;
+}
+
+#saves ul li:hover button:nth-last-of-type(2) {
+  display: initial;
 }
 
 #end-message {

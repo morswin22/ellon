@@ -14,7 +14,7 @@ const mapNames = [
 ]
 
 class Map {
-    constructor(node, playerData, width, height, dwidth, dheight) {
+    constructor(node, width, height, dwidth, dheight) {
         this.letterSize = [6.41, 16];
 
         this.mapSize = [width, height];       // in chars
@@ -22,17 +22,23 @@ class Map {
 
         this.setupNode(node);
         this.setLegend(defaultLegend);
-        this.setPlayer(playerData);
-        this.fetchMap();
+
+        this.mapReady = false;
+        // this.setPlayer(playerData);
+        // this.fetchMap();
     }
 
     // player
     setPlayer(data) {
-        this.mapName = data.map;
         this.player = data;
     }
 
-    // fetchMap
+    // map
+    loadMap(name) {
+        this.mapName = name;
+        this.fetchMap();
+    }
+    
     async fetchMap() {
         if (mapNames.indexOf(this.mapName) != -1) {
             this.mapReady = false;
@@ -71,6 +77,9 @@ class Map {
     draw() {
         this.clear();
         if (this.mapReady) {
+            if (!this.player) {
+                throw 0x2;
+            }
             // calc the displayed bg
             // let xy = this.center(); // temp
             let xy = this.player.getPos(); // temp
@@ -91,7 +100,7 @@ class Map {
             this.master.innerHTML = html;
             
         } else {
-            throw 'Map hasn\'t loaded yet';
+            throw 0x1;
         }
     }
 }
