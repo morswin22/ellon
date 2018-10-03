@@ -11,10 +11,10 @@ const gameStagesCSS = [
 ];
 
 const maxSaves = 10;
-const inventorySpace = 15;
+const saveEvery = 10; // seconds
 
 class Game {
-    constructor (map) {
+    constructor (map, config = {}) {
         this.map = map;
 
         window.addEventListener('keypress', this.keyPress.bind(this));
@@ -23,7 +23,16 @@ class Game {
 
         this.stage(0);
 
-        this.debug(false);
+        // config
+        if (config.debug !== undefined) {this.debug(config.debug);} else {this.debug(false);}
+        if (config.allowKeyboard !== undefined) this.allowKeyboard(config.allowKeyboard); else {this.allowKeyboard(true)}
+
+        setInterval(()=>{
+            this.updateSave();
+        }, saveEvery * 1000);
+        window.addEventListener('beforeunload', e=>{
+            this.updateSave();
+        });
     }
 
     // DOM
@@ -64,6 +73,8 @@ class Game {
         let saves = JSON.parse(localStorage.getItem('ellon-saves'));
         if (saves) {
             if (saves[id]) {
+                this.saveId = parseInt(id);
+
                 let save = saves[id];
                 this.map.loadMap(save.world);
 
@@ -120,6 +131,23 @@ class Game {
             // TODO: create this.confirm method
             if (confirm('Are you sure you want to delete this save?')) {
                 this.deleteSave(id, true);
+            }
+        }
+    }
+
+    updateSave() {
+        // load saves 
+        let saves = JSON.parse(localStorage.getItem('ellon-saves'));
+        let id = this.saveId;
+        if (saves && id !== undefined) {
+            if (saves[id]) {
+                // update player
+                saves[id].player = this.player.toSave();
+                // TODO: update enemies, items..
+                localStorage.setItem('ellon-saves', JSON.stringify(saves));
+                if (this.debugMode) console.log('Save data has been updated');
+            } else {
+                console.error(0x4);
             }
         }
     }
@@ -196,6 +224,8 @@ class Game {
                     // run the game!
                     // ;)
 
+                    this.renderInput();
+
                     this.gameRoutine();
 
                     break;
@@ -211,35 +241,97 @@ class Game {
     // game
     gameRoutine() {
         // refresh map
-        this.draw(); // done
+        this.renderMap(); // done
         
         // display inventory
-
+        // !-now do this-!
 
         // display output
 
 
-        // display input
+        // update? input
 
+    }
 
+    // keyboard
+    allowKeyboard(bool) {
+        this.allowKeyboardMode = bool;
     }
 
     keyPress(e) {
-        if (this.stageIndex == 1 && this.map.mapReady) {
-            console.log(e.key);
+        if (this.allowKeyboardMode && this.stageIndex == 1 && this.map.mapReady) {
             // process keypresses here :)
+
+            // if (this.ableToMove) {}
+            switch(e.key) {
+                case "w":
+                    this.player.move(0,-1);
+                    this.gameRoutine();
+                    break;
+                case "a":
+                    this.player.move(-1,0);
+                    this.gameRoutine();
+                    break;
+                case "s":
+                    this.player.move(0,1);
+                    this.gameRoutine();
+                    break;
+                case "d":
+                    this.player.move(1,0);
+                    this.gameRoutine();
+                    break;
+            }
         }
     }
 
-    // utils
-    draw() {
+    // render
+    renderMap() {
         try {
             this.map.draw();
         } catch (err) {
             if (this.debugMode) console.error("#"+err);
             if (err == 0x1) {
-                setTimeout(this.draw.bind(this), 1000/3);
+                setTimeout(this.renderMap.bind(this), 1000/3);
             }
         }
+    }
+
+    renderInput() {
+        this.dom.input.innerHTML = '';
+
+        // TODO: expand this as needed :)
+        
+        let upBtn = document.createElement('button');
+        upBtn.innerHTML = '↑';
+        upBtn.addEventListener('click', e=>{
+            this.player.move(0,-1);
+            this.gameRoutine();
+        });
+
+        let leftBtn = document.createElement('button');
+        leftBtn.innerHTML = '←';
+        leftBtn.addEventListener('click', e=>{
+            this.player.move(-1,0);
+            this.gameRoutine();
+        });
+
+        let rightBtn = document.createElement('button');
+        rightBtn.innerHTML = '→';
+        rightBtn.addEventListener('click', e=>{
+            this.player.move(1,0);
+            this.gameRoutine();
+        });
+
+        let downBtn = document.createElement('button');
+        downBtn.innerHTML = '↓';
+        downBtn.addEventListener('click', e=>{
+            this.player.move(0,1);
+            this.gameRoutine();
+        });
+
+        this.dom.input.appendChild(upBtn);
+        this.dom.input.appendChild(leftBtn);
+        this.dom.input.appendChild(rightBtn);
+        this.dom.input.appendChild(downBtn);
     }
 }

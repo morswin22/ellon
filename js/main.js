@@ -1,10 +1,11 @@
 const map = new Map(
     document.querySelector('#map'),
     64, 64,
-    32, 16
+    23, 9//13, 5//25,10 //38, 15
 );
 
-const game = new Game(map);
-game.debug(true);
+const game = new Game(map, {
+    debug: true
+});
 
 // game.draw();

@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700');
-@import url('https://fonts.googleapis.com/css?family=VT323');
-@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700|VT323|IBM+Plex+Mono|Share+Tech+Mono');
 
 html, body{
     padding: 0;
@@ -17,7 +15,6 @@ body {
 }
 
 .wrapper {
-    background-color: #b3d7f0;
     display: grid;
     border-radius: 3px;
     
@@ -50,8 +47,11 @@ body {
 
         .header,
         #map, #inventory,
-        #input, #output {
+        #output {
             display: initial;
+        }
+        #input {
+            display: grid;
         }
     }
 
@@ -65,6 +65,16 @@ body {
         .header, #end-message {
             display: initial;
         }
+    }
+
+    transition: background-color ease-in-out 1000ms;
+
+    &.bg-default {
+        background-color: #b3d7f0;
+    }
+    &.bg-green {
+        background-color: #84d679;
+        //background: radial-gradient(#84d679 50%, darken(#84d679, 15%));
     }
 }
 
@@ -83,6 +93,11 @@ body {
     grid-area: map;
     align-self: center;
     justify-self: center;
+
+    i {
+        font-style: normal;
+        color: rgba(0,0,0,.3);
+    }
 }
 
 #inventory {
@@ -95,6 +110,28 @@ body {
 
 #input {
     grid-area: input;
+    justify-self: center;
+    align-self: center;
+    grid-template-areas: 
+        ". upbtn ."
+        "leftbtn downbtn rightbtn";
+
+    button {
+        font-family: 'IBM Plex Mono';
+
+        &:nth-of-type(1) {
+            grid-area: upbtn;
+        }
+        &:nth-of-type(2) {
+            grid-area: leftbtn;
+        }
+        &:nth-of-type(3) {
+            grid-area: rightbtn;
+        }
+        &:nth-of-type(4) {
+            grid-area: downbtn;
+        }
+    }
 }
 
 #menu-header {

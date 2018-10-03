@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Comfortaa:400,700");
-@import url("https://fonts.googleapis.com/css?family=VT323");
-@import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono");
+@import url("https://fonts.googleapis.com/css?family=Comfortaa:400,700|VT323|IBM+Plex+Mono|Share+Tech+Mono");
 html, body {
   padding: 0;
   margin: 0;
@@ -22,11 +20,12 @@ body {
 }
 
 .wrapper {
-  background-color: #b3d7f0;
   display: -ms-grid;
   display: grid;
   border-radius: 3px;
   font-family: 'VT323';
+  -webkit-transition: background-color ease-in-out 1000ms;
+  transition: background-color ease-in-out 1000ms;
 }
 
 .wrapper > div {
@@ -56,8 +55,13 @@ body {
 
 .wrapper.s1 .header,
 .wrapper.s1 #map, .wrapper.s1 #inventory,
-.wrapper.s1 #input, .wrapper.s1 #output {
+.wrapper.s1 #output {
   display: initial;
+}
+
+.wrapper.s1 #input {
+  display: -ms-grid;
+  display: grid;
 }
 
 .wrapper.s2 {
@@ -70,6 +74,14 @@ body {
 
 .wrapper.s2 .header, .wrapper.s2 #end-message {
   display: initial;
+}
+
+.wrapper.bg-default {
+  background-color: #b3d7f0;
+}
+
+.wrapper.bg-green {
+  background-color: #84d679;
 }
 
 .header {
@@ -99,6 +111,11 @@ body {
       justify-self: center;
 }
 
+#map i {
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.3);
+}
+
 #inventory {
   -ms-grid-row: 3;
   -ms-grid-column: 1;
@@ -115,6 +132,40 @@ body {
   -ms-grid-row: 3;
   -ms-grid-column: 2;
   grid-area: input;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+      grid-template-areas: ". upbtn ." "leftbtn downbtn rightbtn";
+}
+
+#input button {
+  font-family: 'IBM Plex Mono';
+}
+
+#input button:nth-of-type(1) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: upbtn;
+}
+
+#input button:nth-of-type(2) {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: leftbtn;
+}
+
+#input button:nth-of-type(3) {
+  -ms-grid-row: 2;
+  -ms-grid-column: 3;
+  grid-area: rightbtn;
+}
+
+#input button:nth-of-type(4) {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: downbtn;
 }
 
 #menu-header {
