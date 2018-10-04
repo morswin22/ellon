@@ -18,7 +18,7 @@ const mapBackgrounds = [
     'bg-green'
 ]
 
-const evalBG = /^0x[0-9a-f]/;
+const evalBG = /^0x[0-9a-f]/; // unused
 
 class Map {
     constructor(node, width, height, dwidth, dheight) {

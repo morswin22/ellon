@@ -23,6 +23,10 @@ class Game {
 
         this.stage(0);
 
+        // setup packages (check if they are loaded, then proceed)
+        this.enchantementsOrganiser = new EnchantementsOrganiser();
+        this.itemsOrganiser = new ItemsOrganiser(this.enchantementsOrganiser);
+
         // config
         if (config.debug !== undefined) {this.debug(config.debug);} else {this.debug(false);}
         if (config.allowKeyboard !== undefined) this.allowKeyboard(config.allowKeyboard); else {this.allowKeyboard(true)}

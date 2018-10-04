@@ -1,0 +1,9 @@
+{
+    "use": "attack",
+    "damage": [3,5],
+    "stamina": 0.2,
+    "possibleEnchantments": [
+        "sharpness",
+        "lightweight"
+    ]
+}
