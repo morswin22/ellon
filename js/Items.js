@@ -2,6 +2,12 @@ const itemsFilesList = [
     'sword'
 ];
 
+const itemsEnchantChance = [
+    5, // for lvl 1(0)
+    2, // for lvl 2(1)
+    1  // for lvl 3(2)
+];
+
 class ItemsOrganiser {
     constructor(enchantmentOrganiser) {
         this.load();
@@ -18,9 +24,28 @@ class ItemsOrganiser {
 }
 
 class Item {
-    constructor(organiser, name) {
+    constructor(organiser, name, from = '?') {
+        this.valuesToSave = [
+            'name',
+            'use',
+            'stamina',
+            'damage',
+            'enchantments'
+        ];
+
         let data = organiser.data[name];
-        if (data) {
+        if (from != '?') { 
+            // load from data
+
+            for(let value of this.valuesToSave) {
+                if (from[value] !== undefined) {
+                    this[value] = from[value];
+                }
+            }
+
+        } else if (data) { 
+            // init
+
             this.name = name;
             this.use = data.use;
             this.stamina = data.stamina;
@@ -30,54 +55,16 @@ class Item {
                     break;
             }
 
+            // get random enchantment
             this.enchantments = {};
-            // give enchants.. only at a small percent
-            // TODO: CONVOLUTION! FIX THIS ASAP !!!
-            console.error('Fix item enchanting system in `constructor`');
-            let random = randomBetween(0,1000);
-            let ok = false;
-            if (random <= 50) { 
-                let enchantment = randomArray(data.possibleEnchantments);
-                if (random <= 20) { 
-                    if (random <= 10) { 
-                        // for level 3
-                        this.enchantments[enchantment] = {
-                            level: 2,
-                            value: organiser.enchantments.data[enchantment].levels[2],
-                            affects: organiser.enchantments.data[enchantment].affects
-                        };
-                        ok = true;
-                    }
-                    if (!ok) {
-                        // for level 2
-                        this.enchantments[enchantment] = {
-                            level: 1,
-                            value: organiser.enchantments.data[enchantment].levels[1],
-                            affects: organiser.enchantments.data[enchantment].affects
-                        };
-                    }
-                    ok = true;
-                }
-                if (!ok) {
-                    // for level 1
-                    this.enchantments[enchantment] = {
-                        level: 0,
-                        value: organiser.enchantments.data[enchantment].levels[0],
-                        affects: organiser.enchantments.data[enchantment].affects
-                    };
-                }
+            let random = this.getRandomEnchant(organiser, name);
+            if (random) {
+                this.enchantments[random.name] = random.data;
             }
+
         } else {
             console.error('Not supported `name` for `item` class');
         }
-
-        this.valuesToSave = [
-            'name',
-            'use',
-            'stamina',
-            'damage',
-            'enchantments'
-        ];
     }
 
     toSave() {
@@ -88,6 +75,27 @@ class Item {
             }
         }
         return list;
+    }
+
+    // utils
+    getRandomEnchant(organiser, name) {
+        let enchantment = randomArray(organiser.data[name].possibleEnchantments);
+        let random = randomBetween(0,100);
+        let pointer = 0;
+        for(let i = 0; i < organiser.enchantments.data[enchantment].levels.length; i++) {
+            pointer += itemsEnchantChance[i];
+            if (random < pointer) {
+                return {
+                    name: enchantment,
+                    data: {
+                        level: i,
+                        value: organiser.enchantments.data[enchantment].levels[i],
+                        affects: organiser.enchantments.data[enchantment].affects
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
 

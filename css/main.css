@@ -54,11 +54,12 @@ body {
 }
 
 .wrapper.s1 .header,
-.wrapper.s1 #map, .wrapper.s1 #inventory,
+.wrapper.s1 #map,
 .wrapper.s1 #output {
   display: initial;
 }
 
+.wrapper.s1 #inventory,
 .wrapper.s1 #input {
   display: -ms-grid;
   display: grid;
@@ -109,6 +110,8 @@ body {
       align-self: center;
   -ms-grid-column-align: center;
       justify-self: center;
+  padding: 0.3em;
+  border: 1px solid rgba(51, 51, 51, 0.6);
 }
 
 #map i {
@@ -120,6 +123,49 @@ body {
   -ms-grid-row: 3;
   -ms-grid-column: 1;
   grid-area: inventory;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 2em;
+  -ms-grid-columns: (1fr)[5];
+      grid-template-columns: repeat(5, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+}
+
+#inventory > div {
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding: 0.4em;
+  border: 1px solid rgba(51, 51, 51, 0.6);
+  cursor: pointer;
+  -webkit-box-shadow: inset 0px 0px 8px 0px rgba(51, 51, 51, 0.6);
+          box-shadow: inset 0px 0px 8px 0px rgba(51, 51, 51, 0.6);
+  position: relative;
+}
+
+#inventory > div > div {
+  display: none;
+  position: absolute;
+  width: 200px;
+  left: calc(-100px + 10px);
+  height: 5em;
+  bottom: 2em;
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  border: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
+
+#inventory > div > div .name {
+  text-align: center;
+}
+
+#inventory > div:hover > div {
+  display: initial;
 }
 
 #output {

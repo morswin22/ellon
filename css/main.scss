@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700|VT323|IBM+Plex+Mono|Share+Tech+Mono');
 
+$outline: rgba(51,51,51,0.6);
+
 html, body{
     padding: 0;
     margin: 0;
@@ -46,10 +48,11 @@ body {
             "inventory input";
 
         .header,
-        #map, #inventory,
+        #map,
         #output {
             display: initial;
         }
+        #inventory,
         #input {
             display: grid;
         }
@@ -94,6 +97,9 @@ body {
     align-self: center;
     justify-self: center;
 
+    padding: 0.3em;
+    border: 1px solid $outline;
+
     i {
         font-style: normal;
         color: rgba(0,0,0,.3);
@@ -102,6 +108,44 @@ body {
 
 #inventory {
     grid-area: inventory;
+    box-sizing: border-box;
+    padding: 2em;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+    & > div {
+        justify-self: center;
+        align-self: center;
+
+        padding: 0.4em;
+        border: 1px solid $outline;
+        cursor: pointer;
+        box-shadow: inset 0px 0px 8px 0px $outline;
+
+        position: relative;
+
+        & > div {
+            display: none;
+            position: absolute;
+            width: 200px;
+            left: calc(-100px + 10px);
+            height: 5em;
+            bottom: 2em;
+            backdrop-filter: blur(3px);
+            border: 1px solid black;
+            background-color: rgba(0,0,0,0.2);
+
+            cursor: default;
+
+            .name {
+                text-align: center;
+            }
+        }
+
+        &:hover > div {
+            display: initial;
+        }
+    }
 }
 
 #output {

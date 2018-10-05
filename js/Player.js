@@ -5,7 +5,27 @@ class Player {
         this.x = data.xy[0];
         this.y = data.xy[1];
         this.hp = data.hp;
-        this.inventory = data.inventory;
+        //this.inventory = data.inventory;
+        // this.inventory = [
+        //     new Item(game.itemsOrganiser, 'sword', {"name":"sword","use":"attack","stamina":0.2,"damage":4,"enchantments":{"lightweight":{"level":0,"value":-0.02,"affects":"stamina"}}}),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword', {"name":"sword","use":"attack","stamina":0.2,"damage":3,"enchantments":{"sharpness":{"level":0,"value":2,"affects":"damage"}}}),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword'),
+        //     new Item(game.itemsOrganiser, 'sword')
+        // ];
+        this.inventory = [];
+        for (let item of data.inventory) {
+            this.inventory.push(new Item(game.itemsOrganiser, item.name, item));
+        }
         this.setWalls([]);
     }
 

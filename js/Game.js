@@ -228,7 +228,8 @@ class Game {
                     // run the game!
                     // ;)
 
-                    this.renderInput();
+                    this.renderInput();     // TODO: update when needed
+                    this.renderInventory(); // TODO: update when needed
 
                     this.gameRoutine();
 
@@ -247,14 +248,20 @@ class Game {
         // refresh map
         this.renderMap(); // done
         
-        // display inventory
-        // !-now do this-!
-
         // display output
 
+    }
 
-        // update? input
-
+    // wariants with auto rendering :)
+    playerAddItem(item) {
+        if (this.player.addItem(item)) {
+            this.renderInventory();
+        }
+    }
+    playerRemoveItem(id) {
+        if (this.player.removeItem(id)) {
+            this.renderInventory();
+        }
     }
 
     // keyboard
@@ -295,7 +302,8 @@ class Game {
         } catch (err) {
             if (this.debugMode) console.error("#"+err);
             if (err == 0x1) {
-                setTimeout(this.renderMap.bind(this), 1000/3);
+                this.retry('renderMap');
+                //setTimeout(this.renderMap.bind(this), 1000/3);
             }
         }
     }
@@ -337,5 +345,61 @@ class Game {
         this.dom.input.appendChild(leftBtn);
         this.dom.input.appendChild(rightBtn);
         this.dom.input.appendChild(downBtn);
+    }
+
+    renderInventory() {
+        this.dom.inventory.innerHTML = '';
+
+        if (this.itemsOrganiser.data) {
+            for (let item of this.player.inventory) {
+                
+                let div = document.createElement('div');
+                div.innerHTML = this.itemsOrganiser.data[item.name].symbol;
+                
+                let info = document.createElement('div');
+                let name = document.createElement('div');
+                name.classList.add('name');
+                name.innerHTML = capitalize(item.name);
+                let stamina = document.createElement('div');
+
+                if (item.enchantments.lightweight == undefined) {
+                    stamina.innerHTML = 'Stamina: '+item.stamina;
+                } else {
+                    stamina.innerHTML = `Stamina: ${round(item.stamina+item.enchantments.lightweight.value,2)} (${item.stamina} - ${Math.abs(item.enchantments.lightweight.value)})`;
+                }
+                
+                info.appendChild(name);
+                info.appendChild(stamina);
+
+                switch(item.use) {
+                    case 'attack':
+                        let attack = document.createElement('div');
+                        if (item.enchantments.sharpness == undefined) {
+                            attack.innerHTML = 'Damage: '+item.damage;
+                        } else {
+                            attack.innerHTML = `Damage: ${round(item.damage+item.enchantments.sharpness.value,2)} (${item.damage} + ${item.enchantments.sharpness.value})`;
+                        }
+                        info.appendChild(attack);
+                        break;
+
+                    default:
+                        let use = document.createElement('div');
+                        use.innerHTML = 'Usage: '+item.use;
+                        info.appendChild(use);
+                        break;
+                }
+                
+                div.appendChild(info);
+                this.dom.inventory.appendChild(div);
+
+            }
+        } else {
+            this.retry('renderInventory');
+        }
+    }
+
+    // retry
+    retry(func) {
+        setTimeout(this[func].bind(this), 1000/3);
     }
 }
