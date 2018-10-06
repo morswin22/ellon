@@ -24,8 +24,23 @@ body {
   display: grid;
   border-radius: 3px;
   font-family: 'VT323';
+  position: relative;
   -webkit-transition: background-color ease-in-out 1000ms;
   transition: background-color ease-in-out 1000ms;
+}
+
+.wrapper > span {
+  font-family: 'IBM Plex Mono';
+  width: 32px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.4em;
+  cursor: pointer;
+  display: none;
 }
 
 .wrapper > div {
@@ -33,6 +48,7 @@ body {
 }
 
 .wrapper.s0 {
+  background-color: #b3d7f0 !important;
   -ms-grid-columns: 100%;
       grid-template-columns: 100%;
   -ms-grid-rows: 40% 60%;
@@ -66,6 +82,7 @@ body {
 }
 
 .wrapper.s2 {
+  background-color: #b3d7f0 !important;
   -ms-grid-columns: 100%;
       grid-template-columns: 100%;
   -ms-grid-rows: 35px calc(100% - 35px);
@@ -77,12 +94,35 @@ body {
   display: initial;
 }
 
+.wrapper.s3 {
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas: "backpack slots" "item-info player-info";
+}
+
+.wrapper.s3 #slots,
+.wrapper.s3 #item-info, .wrapper.s3 #player-info {
+  display: initial;
+}
+
+.wrapper.s3 #backpack {
+  display: -ms-grid;
+  display: grid;
+}
+
 .wrapper.bg-default {
   background-color: #b3d7f0;
 }
 
 .wrapper.bg-green {
   background-color: #97d68e;
+}
+
+.wrapper.s1 > span,
+.wrapper.s3 > span {
+  display: initial;
 }
 
 .header {
@@ -119,10 +159,18 @@ body {
   color: rgba(0, 0, 0, 0.3);
 }
 
+#map a {
+  cursor: pointer;
+}
+
 #inventory {
   -ms-grid-row: 3;
   -ms-grid-column: 1;
   grid-area: inventory;
+}
+
+#inventory,
+#backpack {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 2em;
@@ -132,7 +180,8 @@ body {
       grid-template-rows: repeat(3, 1fr);
 }
 
-#inventory > div {
+#inventory > div,
+#backpack > div {
   -ms-grid-column-align: center;
       justify-self: center;
   -ms-flex-item-align: center;
@@ -146,7 +195,13 @@ body {
   position: relative;
 }
 
-#inventory > div > div {
+#inventory > div.equipped,
+#backpack > div.equipped {
+  border: 2px solid rgba(0, 0, 0, 0.6);
+}
+
+#inventory > div > div,
+#backpack > div > div {
   display: none;
   position: absolute;
   width: 200px;
@@ -157,14 +212,17 @@ body {
           backdrop-filter: blur(3px);
   border: 1px solid black;
   background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.2em;
   cursor: default;
 }
 
-#inventory > div > div .name {
+#inventory > div > div .name,
+#backpack > div > div .name {
   text-align: center;
 }
 
-#inventory > div:hover > div {
+#inventory > div:hover > div,
+#backpack > div:hover > div {
   display: initial;
 }
 
@@ -292,5 +350,83 @@ body {
       -ms-grid-row-align: center;
       align-self: center;
   font-size: 3.5em;
+}
+
+#backpack {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: backpack;
+}
+
+#backpack > div.renderingInfo {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.8);
+          box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+#backpack > div.renderingInfo * {
+  font-size: 16px;
+  text-transform: none;
+}
+
+#slots {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: slots;
+  padding: 2em;
+}
+
+#slots > div {
+  width: 80%;
+  margin: 0.3em auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+#slots > div > span:nth-of-type(1) {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+#slots > div > span:nth-of-type(2) {
+  padding: 0.4em;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  -webkit-box-shadow: inset 0px 0px 8px 0px rgba(51, 51, 51, 0.6);
+          box-shadow: inset 0px 0px 8px 0px rgba(51, 51, 51, 0.6);
+}
+
+#item-info {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: item-info;
+  text-align: center;
+  font-size: 20px;
+}
+
+#item-info ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#player-info {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: player-info;
+  text-align: center;
+  font-size: 20px;
+}
+
+#player-info > div {
+  margin: 0.2em 0;
 }
 /*# sourceMappingURL=main.css.map */

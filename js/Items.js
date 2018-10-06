@@ -77,6 +77,34 @@ class Item {
         return list;
     }
 
+    toRender() {
+        let baseOf = ['damage', 'stamina'];
+
+        let list = {};
+        for(let value of this.valuesToSave) {
+            if (this[value] !== undefined) {
+                if (baseOf.indexOf(value) != -1) {
+                    list['base'+capitalize(value)] = this[value];
+                } else {
+                    list[value] = this[value];
+                }
+            }
+        }
+        for(let enchantName in this.enchantments) {
+            let enchantment = this.enchantments[enchantName];
+            list['final'+capitalize(enchantment.affects)] = round(this[enchantment.affects] + enchantment.value,2);
+            list['bonus'+capitalize(enchantment.affects)] = enchantment.value;
+        }
+
+        for (let name of baseOf) {
+            if (list['final'+capitalize(name)] === undefined) {
+                list['final'+capitalize(name)] = list['base'+capitalize(name)];
+                list['bonus'+capitalize(name)] = 0;
+            }
+        }
+        return list;
+    }
+
     // utils
     getRandomEnchant(organiser, name) {
         let enchantment = randomArray(organiser.data[name].possibleEnchantments);

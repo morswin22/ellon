@@ -1,10 +1,13 @@
 const inventorySpace = 15;
+const maxStamina = 1;
+const maxHp = 1;
 
 class Player {
     constructor(data) {
         this.x = data.xy[0];
         this.y = data.xy[1];
         this.hp = data.hp;
+        this.stamina = data.stamina;
         //this.inventory = data.inventory;
         // this.inventory = [
         //     new Item(game.itemsOrganiser, 'sword', {"name":"sword","use":"attack","stamina":0.2,"damage":4,"enchantments":{"lightweight":{"level":0,"value":-0.02,"affects":"stamina"}}}),
@@ -24,8 +27,9 @@ class Player {
         // ];
         this.inventory = [];
         for (let item of data.inventory) {
-            this.inventory.push(new Item(game.itemsOrganiser, item.name, item));
+            this.inventory.push(new Item(game.itemsOrganiser, item.name, item)); // TODO: may cause errors..
         }
+        this.slots = data.slots;
         this.setWalls([]);
     }
 
@@ -33,7 +37,9 @@ class Player {
         return {
             xy: [this.x, this.y],
             hp: this.hp,
-            inventory: this.inventory
+            inventory: this.inventory,
+            slots: this.slots,
+            stamina: this.stamina,
         };
     }
 
@@ -47,14 +53,10 @@ class Player {
 
     move(xdir, ydir) {
         this.x += xdir;
-        // TODO: collision check
         this.collisionX(xdir);
 
         this.y += ydir;
         this.collisionY(ydir);
-        // TODO: collision check
-
-        // collision only with walls
     }
 
     collisionX(dir) {
@@ -101,5 +103,23 @@ class Player {
             return this.inventory[id];
         }
         return false;
+    }
+
+    //stats 
+    getValue(valName) {
+        switch(valName) {
+            case 'hp':
+                return this.hp*100;
+            case 'stamina':
+                return this.stamina*100;
+            case 'damage':
+                let dmg = 1;
+                let gun = this.getItem(this.slots.hand);
+                if (gun) {
+                    let gunFinal = gun.toRender();
+                    dmg = gunFinal.finalDamage;
+                }
+                return dmg;
+        }
     }
 }

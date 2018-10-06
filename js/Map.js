@@ -107,6 +107,8 @@ class Map {
             let left = xy[0] - parseInt(this.displaySize[0]/2);
             let top = xy[1] - parseInt(this.displaySize[1]/2);
 
+            let a;
+
             let html = '';
             let playerWalls = [];
             for(let y = top; y < top+this.displaySize[1]; y++) {
@@ -115,7 +117,12 @@ class Map {
                     let char = this.mapData.charAt(pos);
 
                     if (xy[0] == x && xy[1] == y) {
-                        html += defaultLegend.player;
+                        a = document.createElement('a');
+                        a.addEventListener('click', ()=> {
+                            game.stage(3);
+                        });
+                        a.innerHTML = defaultLegend.player;
+                        html += '<a></a>';
                     } else if (char == defaultLegend.space) {
                         html += '<i>'+char+'</i>';
                     } else {
@@ -131,6 +138,8 @@ class Map {
             this.player.setWalls(playerWalls);
 
             this.master.innerHTML = html;
+
+            this.master.querySelector('a').appendChild(a);
             
         } else {
             throw 0x1;
